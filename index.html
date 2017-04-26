@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="app.js"></script>
+<body ng-app="myApp" ng-controller="todoCtrl">
+
+    <h2>My Todo List</h2>
+
+    <form ng-submit="search()">
+        <input type="text" ng-model="searchInput" size="50" placeholder="Input to search">
+        <input type="submit" value="Search">        
+    </form>
+
+    <br>
+
+    <select ng-model="priority">
+        <option value="emergency">Emergency</option>
+        <option value="time">Time</option>
+    </select>
+
+    <br>
+
+    <div ng-repeat="x in todoList">
+        <input type="checkbox" ng-model="x.done"> <span ng-bind="x.todoText"></span>
+    </div>
+
+    <br>
+
+    <button ng-click="add()">Add Todo</button>
+
+</body>
+
+</html>
