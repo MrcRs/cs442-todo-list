@@ -7,23 +7,42 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    ArrayAdapter<String> adapter;
+    TodoAdapter adapter;
+    Spinner statusSpinner, prioritySpinner;
+    ListView todoListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Spinner statusSpinner = (Spinner) findViewById(R.id.status);
-        Spinner prioritySpinner = (Spinner) findViewById(R.id.priority);
+        statusSpinner = (Spinner) findViewById(R.id.status);
+        prioritySpinner = (Spinner) findViewById(R.id.priority);
         statusSpinner.setOnItemSelectedListener(this);
         prioritySpinner.setOnItemSelectedListener(this);
+
+        todoListView = (ListView) findViewById(R.id.todo_list);
+        initAdapter();
+        todoListView.setAdapter(adapter);
+
+    }
+
+    private void initAdapter() {
+        adapter = new TodoAdapter(this, R.layout.customized_listview, new ArrayList<Todo>());
+        for (int i = 0;i < 5;++i) {
+            adapter.add(new Todo("name" + i, "notes" + i, new Date(2017, 5, 7), i, i % 2 == 0));
+        }
+
     }
 
     @Override
@@ -40,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+
                 return false;
             }
         });
