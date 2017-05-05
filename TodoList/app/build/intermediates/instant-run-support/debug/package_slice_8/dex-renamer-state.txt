@@ -1,0 +1,4 @@
+#Thu Apr 27 11:24:48 ICT 2017
+base.0=E\:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_8
+renamed.0=classes.dex
+file.0=E\:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\5\\slice_8\\classes.dex

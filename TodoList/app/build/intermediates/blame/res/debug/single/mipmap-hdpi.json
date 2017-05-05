@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "E:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\ic_launcher_round.png",
+        "source": "E:\\cs442-todo-list\\TodoList\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "E:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\ic_launcher.png",
+        "source": "E:\\cs442-todo-list\\TodoList\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    }
+]
