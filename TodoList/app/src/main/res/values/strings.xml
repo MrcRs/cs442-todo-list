@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">TodoList</string>
+    <string-array name="status">
+        <item>All</item>
+        <item>Completed</item>
+        <item>Incompleted</item>
+    </string-array>
+    <string-array name="priority">
+        <item>Due Date</item>
+        <item>Emergency</item>
+    </string-array>
 </resources>

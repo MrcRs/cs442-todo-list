@@ -37,10 +37,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initAdapter() {
-        adapter = new TodoAdapter(this, R.layout.todo_listview, new ArrayList<Todo>());
+        ArrayList<Todo> temp = new ArrayList<>();
         for (int i = 0; i < 5; ++i) {
-            adapter.add(new Todo("Name " + i, "Notes" + i, new Date(2017, 5, 7), i, (i % 2) == 0));
+            temp.add(new Todo("Name " + i, "Notes" + i, new Date(2017, 5, 7), i, (i % 2) == 0));
         }
+
+        adapter = new TodoAdapter(this, R.layout.todo_listview, temp);
     }
 
     private void initLayoutObject() {
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+
                 return false;
             }
         });
