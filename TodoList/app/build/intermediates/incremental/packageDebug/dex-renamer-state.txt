@@ -1,7 +1,0 @@
-#Fri May 05 13:41:08 ICT 2017
-base.0=E\:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_3431c386fefae27f029958f3e0957d5e1e8cdbb6
-renamed.1=classes2.dex
-renamed.0=classes.dex
-file.1=E\:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_3cc059485b6522c245f775004edd439788c4d624\\classes.dex
-base.1=E\:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_3cc059485b6522c245f775004edd439788c4d624
-file.0=E\:\\cs442-todo-list\\TodoList\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_3431c386fefae27f029958f3e0957d5e1e8cdbb6\\classes.dex
