@@ -1,5 +1,6 @@
 package com.example.tungd.todolist;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -66,11 +67,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_button:
+                DialogFragment dialogFragment = new TodoDialog();
+                dialogFragment.show(getSupportFragmentManager(), "Todo");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
