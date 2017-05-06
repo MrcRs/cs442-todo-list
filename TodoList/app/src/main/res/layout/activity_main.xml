@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context="com.example.tungd.todolist.MainActivity">
 
     <LinearLayout
@@ -27,8 +28,8 @@
     </LinearLayout>
 
     <ListView
+        android:id="@+id/todo_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/todo_list_view"></ListView>
+        android:layout_height="match_parent"></ListView>
 
 </LinearLayout>

@@ -14,10 +14,12 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, TodoDialog.TodoDialogListener {
     TodoAdapter adapter;
     Spinner statusSpinner, prioritySpinner;
     ListView todoListView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialogFragment) {
 
     }
 }
