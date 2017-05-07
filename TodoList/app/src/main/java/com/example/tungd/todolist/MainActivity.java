@@ -80,10 +80,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (item.getItemId()) {
             case R.id.add_button:
                 DialogFragment dialogFragment = new TodoDialog();
+
+                Bundle bundle = createBundle(" ", " ", 10, " ", false);
+                dialogFragment.setArguments(bundle);
                 dialogFragment.show(getSupportFragmentManager(), "Todo");
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Bundle createBundle(String todoName, String todoDueDate, int todoEmergency, String todoNotes, boolean todoIsCompleted) {
+        Bundle bundle = new Bundle();
+        bundle.putString("todo_name", todoName);
+        bundle.putString("todo_due_date", todoDueDate);
+        bundle.putInt("todo_emergency", todoEmergency);
+        bundle.putString("todo_notes", todoNotes);
+        bundle.putBoolean("todo_is_completed", todoIsCompleted);
+        return bundle;
     }
 
     @Override
@@ -103,7 +116,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialogFragment) {
+    public void onDialogPositiveClick(DialogFragment dialogFragment, boolean isCreated) {
+
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialogFragment, boolean isCreated) {
 
     }
 }
