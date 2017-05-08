@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     TodoAdapter adapter;
     Spinner statusSpinner, prioritySpinner;
     ListView todoListView;
-
+    ArrayList<Todo> todoArrayList;
 
 
     @Override
@@ -40,12 +40,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initAdapter() {
-        ArrayList<Todo> temp = new ArrayList<>();
+        todoArrayList = new ArrayList<>();
         for (int i = 0; i < 5; ++i) {
-            temp.add(new Todo("Name " + i, "Notes" + i, new Date(2017, 5, 7), i, (i % 2) == 0));
+            todoArrayList.add(new Todo("Name " + i, "Notes" + i, new Date(0), i, (i % 2) == 0));
         }
 
-        adapter = new TodoAdapter(this, R.layout.todo_listview, temp);
+        adapter = new TodoAdapter(this, R.layout.todo_listview, todoArrayList);
     }
 
     private void initLayoutObject() {
@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.add_button:
                 DialogFragment dialogFragment = new TodoDialog();
 
-                Bundle bundle = createBundle(" ", " ", 10, " ", false);
+                Bundle bundle = createBundle(" ", 0, 10, " ", false);
+                bundle.putBoolean("is_created", true);
                 dialogFragment.setArguments(bundle);
                 dialogFragment.show(getSupportFragmentManager(), "Todo");
                 return true;
@@ -89,10 +90,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return super.onOptionsItemSelected(item);
     }
 
-    private Bundle createBundle(String todoName, String todoDueDate, int todoEmergency, String todoNotes, boolean todoIsCompleted) {
+    private Bundle createBundle(String todoName, long todoDueDate, int todoEmergency, String todoNotes, boolean todoIsCompleted) {
         Bundle bundle = new Bundle();
         bundle.putString("todo_name", todoName);
-        bundle.putString("todo_due_date", todoDueDate);
+        bundle.putLong("todo_due_date", todoDueDate);
         bundle.putInt("todo_emergency", todoEmergency);
         bundle.putString("todo_notes", todoNotes);
         bundle.putBoolean("todo_is_completed", todoIsCompleted);
@@ -116,12 +117,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialogFragment, boolean isCreated) {
-
+    public void onDialogPositiveClick(DialogFragment dialogFragment, Todo todo, int pos) {
+        if (pos == -1) {
+            todoArrayList.add(todo);
+            adapter.notifyDataSetChanged();
+        } else {
+            todoArrayList.remove(pos);
+            todoArrayList.add(pos, todo);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialogFragment, boolean isCreated) {
+    public void onDialogNegativeClick(DialogFragment dialogFragment, Todo todo, int pos) {
 
     }
 }
