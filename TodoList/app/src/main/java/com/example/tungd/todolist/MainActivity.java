@@ -1,5 +1,6 @@
 package com.example.tungd.todolist;
 
+import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     TodoAdapter adapter;
     Spinner statusSpinner, prioritySpinner;
     ListView todoListView;
-    ArrayList<Todo> todoArrayList;
+    ArrayList<Todo> todoArrayList = new ArrayList<>();
 
 
     @Override
@@ -26,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initAdapter();
+        readJsonFile();
+        adapter = new TodoAdapter(this, R.layout.todo_listview, todoArrayList);
+//        initAdapter();
         initLayoutObject();
 
         updateSpinner();
@@ -46,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         adapter = new TodoAdapter(this, R.layout.todo_listview, todoArrayList);
+        writeJsonFile();
     }
 
     private void initLayoutObject() {
@@ -121,15 +133,82 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (pos == -1) {
             todoArrayList.add(todo);
             adapter.notifyDataSetChanged();
+            writeJsonFile();
+            readJsonFile();
+            adapter.notifyDataSetChanged();
         } else {
             todoArrayList.remove(pos);
             todoArrayList.add(pos, todo);
             adapter.notifyDataSetChanged();
+            writeJsonFile();
         }
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialogFragment, Todo todo, int pos) {
 
+    }
+
+    public void readJsonFile() {
+        String jsonStr = "";
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput("data.json");
+            byte[] buffer = new byte[1024];
+            while (fis.read(buffer) != -1) {
+                jsonStr += new String(buffer, "UTF-8");
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray jsonArray;
+        try {
+            jsonArray = new JSONArray(jsonStr);
+            for (int i = 0; i < jsonArray.length(); ++i) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Todo todo = new Todo(
+                        jsonObject.getString("todo_name"),
+                        jsonObject.getString("todo_note"),
+                        new Date(jsonObject.getInt("todo_due_date")),
+                        jsonObject.getInt("todo_emergency"),
+                        jsonObject.getBoolean("todo_is_completed"));
+                todoArrayList.add(todo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeJsonFile() {
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < todoArrayList.size(); ++i) {
+            Todo todo = todoArrayList.get(i);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("todo_name", todo.getName());
+                jsonObject.put("todo_note", todo.getNotes());
+                jsonObject.put("todo_due_date", todo.getDueDate().getTime());
+                jsonObject.put("todo_emergency", todo.getEmergency());
+                jsonObject.put("todo_is_completed", todo.isCompleted());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            jsonArray.put(jsonObject);
+        }
+        String str = jsonArray.toString();
+
+        try {
+            FileOutputStream fos = openFileOutput("data.json", Context.MODE_PRIVATE);
+            byte[] b = str.getBytes();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

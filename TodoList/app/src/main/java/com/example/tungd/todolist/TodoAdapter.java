@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.ImageButton;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -62,7 +63,7 @@ public class TodoAdapter extends ArrayAdapter<Todo> {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
 
