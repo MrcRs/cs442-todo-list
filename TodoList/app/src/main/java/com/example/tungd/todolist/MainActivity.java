@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     TodoAdapter adapter;
     Spinner statusSpinner, prioritySpinner;
     ListView todoListView;
-    ArrayList<Todo> todoArrayList = new ArrayList<>();
+    public ArrayList<Todo> todoArrayList = new ArrayList<>();
 
 
     @Override
@@ -48,16 +48,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void updateSpinner() {
         statusSpinner.setOnItemSelectedListener(this);
         prioritySpinner.setOnItemSelectedListener(this);
-    }
-
-    private void initAdapter() {
-        todoArrayList = new ArrayList<>();
-        for (int i = 0; i < 5; ++i) {
-            todoArrayList.add(new Todo("Name " + i, "Notes" + i, new Date(0), i, (i % 2) == 0));
-        }
-
-        adapter = new TodoAdapter(this, R.layout.todo_listview, todoArrayList);
-        writeJsonFile();
     }
 
     private void initLayoutObject() {
@@ -132,15 +122,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onDialogPositiveClick(DialogFragment dialogFragment, Todo todo, int pos) {
         if (pos == -1) {
             todoArrayList.add(todo);
-            adapter.notifyDataSetChanged();
             writeJsonFile();
-            readJsonFile();
             adapter.notifyDataSetChanged();
         } else {
             todoArrayList.remove(pos);
             todoArrayList.add(pos, todo);
-            adapter.notifyDataSetChanged();
             writeJsonFile();
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -168,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         JSONArray jsonArray;
         try {
             jsonArray = new JSONArray(jsonStr);
+            if (todoArrayList.size() != 0) {
+                todoArrayList.clear();
+            }
             for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Todo todo = new Todo(
@@ -183,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void writeJsonFile() {
+    public void writeJsonFile() {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < todoArrayList.size(); ++i) {
             Todo todo = todoArrayList.get(i);
@@ -204,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         try {
             FileOutputStream fos = openFileOutput("data.json", Context.MODE_PRIVATE);
             byte[] b = str.getBytes();
+            fos.write(b);
             fos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

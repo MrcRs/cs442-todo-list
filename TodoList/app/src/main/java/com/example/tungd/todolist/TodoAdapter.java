@@ -38,7 +38,7 @@ public class TodoAdapter extends ArrayAdapter<Todo> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.todo_listview, null, true);
         final Todo todo = filteredTodoList.get(position);
@@ -63,7 +63,9 @@ public class TodoAdapter extends ArrayAdapter<Todo> {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                activity.todoArrayList.remove(position);
+                activity.writeJsonFile();
+                notifyDataSetChanged();
             }
         });
 
@@ -105,9 +107,9 @@ public class TodoAdapter extends ArrayAdapter<Todo> {
                     if (todo.getName().toLowerCase().contains(constraint)) {
                         filteredItems.add(todo);
                     }
-                    results.values = filteredItems;
-                    results.count = filteredItems.size();
                 }
+                results.values = filteredItems;
+                results.count = filteredItems.size();
             } else {
                 synchronized (this) {
                     results.values = originalTodoList;
